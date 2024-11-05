@@ -27,6 +27,11 @@ class Partners extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function contracts()
+    {
+        return $this->hasMany(Contracts::class, 'partner_id', 'user_id');
+    }
+
     protected static function boot()
     {
         parent::boot();

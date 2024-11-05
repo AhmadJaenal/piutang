@@ -22,24 +22,4 @@ class Employees extends Model
     ];
 
     protected $dates = ['deleted_at'];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::deleting(function ($employee) {
-            // Menghapus gambar dari storage jika ada saat soft delete
-        });
-
-        static::restoring(function ($employee) {
-            // Tidak ada tindakan khusus saat mengembalikan data, bisa dihilangkan jika tidak perlu
-        });
-
-        static::forceDeleting(function ($employee) {
-            // Menghapus gambar dari storage secara permanen jika ada saat hard delete
-            if ($employee->profile_picture) {
-                Storage::delete('public/employees/' . $employee->profile_picture);
-            }
-        });
-    }
 }

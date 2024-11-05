@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\Fields;
 use App\Models\Employees;
 use App\Models\Partners;
 
@@ -11,12 +11,12 @@ class AdminController extends Controller
 {
     public function admin()
     {
-        $users = User::count();
+        $fields = Fields::count();
         $employees = Employees::count();
         $partners = Partners::count();
 
         $data = array(
-            'users' => $users,
+            'fields' => $fields,
             'employees' => $employees,
             'partners' => $partners,
         );

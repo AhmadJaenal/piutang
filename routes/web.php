@@ -7,6 +7,7 @@ use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\KontrakController;
+use App\Http\Controllers\BidangController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -77,6 +78,18 @@ Route::put('/employees/restore/{id}', [EmployeesController::class, 'restore'])->
 Route::patch('employees/restore/{id}', [EmployeesController::class, 'restore'])->name('employees.restore');
 Route::delete('/employees/force-delete/{id}', [EmployeesController::class, 'forceDelete'])->name('forceDeleteEmployees');
 
+// Fields Routes
+Route::get('/fields', [BidangController::class, 'index'])->name('listFields');
+Route::get('/fields/create', [BidangController::class, 'create'])->name('createFields');
+Route::post('/fields', [BidangController::class, 'store'])->name('storeFields');
+Route::get('/fields/edit/{id}', [BidangController::class, 'edit'])->name('editFields');
+Route::put('/fields/edit/{id}', [BidangController::class, 'update'])->name('updateFields');
+Route::delete('/fields/{id}', [BidangController::class, 'destroy'])->name('deleteFields');
+Route::get('/fields/trash', [BidangController::class, 'trash'])->name('trashFields');
+Route::put('/fields/restore/{id}', [BidangController::class, 'restore'])->name('restoreFields');
+Route::patch('fields/restore/{id}', [BidangController::class, 'restore'])->name('fields.restore');
+Route::delete('/fields/force-delete/{id}', [BidangController::class, 'forceDelete'])->name('forceDeleteFields');
+
 // Partners Routes
 Route::get('/partners', [PartnerController::class, 'index'])->name('listPartners');
 Route::get('/partners/create', [PartnerController::class, 'create'])->name('createPartners');
@@ -88,6 +101,7 @@ Route::get('/partners/trash', [PartnerController::class, 'trash'])->name('trashP
 Route::patch('/partners/{id}/restore', [PartnerController::class, 'restore'])->name('restorePartners');
 Route::delete('/partners/{id}/forceDelete', [PartnerController::class, 'forceDelete'])->name('forceDeletePartners');
 
-// Kontraks Routes
-Route::get('/kontraks', [KontrakController::class, 'index'])->name('listKontraks');
-
+// Contracts Routes
+Route::get('/kontraks', [KontrakController::class, 'index'])->name('listContracts');
+Route::get('/kontraks/create', [KontrakController::class, 'create'])->name('createContracts');
+Route::post('/kontraks', [KontrakController::class, 'store'])->name('storeContracts');

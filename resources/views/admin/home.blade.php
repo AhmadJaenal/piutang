@@ -26,13 +26,13 @@
         <div class="col-lg-3 col-6">
             <div class="small-box bg-dark">
                 <div class="inner">
-                    <p>Total Hak Akses</p>
-                    <h1>{{ $users }}</h1>
+                    <p>Total Bidang</p>
+                    <h1>{{ $fields }}</h1>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-user-shield" style="color: white"></i>
+                    <i class="fas fa-building" style="color: white"></i>
                 </div>
-                <a href="{{ route('listUsers') }}" class="small-box-footer">Info Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('listFields') }}" class="small-box-footer">Info Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
           <div class="col-lg-3 col-6">
@@ -71,7 +71,7 @@
             <div class="small-box bg-primary">
               <div class="inner">
                 <p>Total Kontrak</p>
-                <h1>1</h1>
+                <h1>0</h1>
               </div>
               <div class="icon">
                 <i class="fas fa-file-contract" style="color: white"></i>
