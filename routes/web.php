@@ -105,3 +105,10 @@ Route::delete('/partners/{id}/forceDelete', [PartnerController::class, 'forceDel
 Route::get('/kontraks', [KontrakController::class, 'index'])->name('listContracts');
 Route::get('/kontraks/create', [KontrakController::class, 'create'])->name('createContracts');
 Route::post('/kontraks', [KontrakController::class, 'store'])->name('storeContracts');
+Route::get('/kontraks/edit/{id}', [KontrakController::class, 'edit'])->name('editContracts');
+Route::put('/kontraks/{id}', [KontrakController::class, 'update'])->name('updateContracts');
+Route::get('/contracts/{id}', [KontrakController::class, 'show'])->name('contracts.show');
+Route::delete('/kontraks/{id}', [KontrakController::class, 'destroy'])->name('deleteContracts');
+Route::get('/kontraks/trash', [KontrakController::class, 'trash'])->name('trashContracts');
+Route::patch('/kontraks/{id}/restore', [KontrakController::class, 'restore'])->name('restoreContracts');
+Route::delete('/kontraks/{id}/forceDelete', [KontrakController::class, 'forceDelete'])->name('forceDeleteContracts');

@@ -71,7 +71,7 @@
             <div class="small-box bg-primary">
               <div class="inner">
                 <p>Total Kontrak</p>
-                <h1>0</h1>
+                <h1>{{ $contracts }}</h1>
               </div>
               <div class="icon">
                 <i class="fas fa-file-contract" style="color: white"></i>

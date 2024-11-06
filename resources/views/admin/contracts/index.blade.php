@@ -86,7 +86,7 @@
                     <div class="card-header text-left">
                         <a href="{{ route('createContracts') }}" class="btn btn-info" role="button"><i class="fas fa-plus"></i> Tambah Kontrak</a>
                         <a class="btn btn-dark" role="button" href="/admin"><i class="fas fa-arrow-left"></i> Kembali</a>
-                        <a href="" class="btn btn-danger" role="button"><i class="fas fa-trash"></i> Tempat Sampah</a>
+                        <a href="{{ route('trashContracts') }}" class="btn btn-danger" role="button"><i class="fas fa-trash"></i> Tempat Sampah</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -97,8 +97,7 @@
                                         <th>Kode Kontrak</th>
                                         <th>Nama Mitra</th>
                                         <th>Badan Hukum</th>
-                                        <th>Tanggal Mulai</th>
-                                        <th>Tanggal Berakhir</th>
+                                        <th>Jangka Waktu</th>
                                         <th>Nilai</th>
                                         <th>Kompensansi</th>
                                         <th>Status</th>
@@ -112,8 +111,7 @@
                                         <td>{{ $contract->contract_code }}</td>
                                         <td>{{ $contract->partner->partner_name }}</td>
                                         <td>{{ $contract->badan_hukum }}</td>
-                                        <td>{{ $contract->awal_janji }}</td>
-                                        <td>{{ $contract->akhir_janji }}</td>
+                                        <td>{{ $contract->jangka_waktu }}</td>
                                         <td>Rp {{ number_format($contract->nilai, 0, ',', '.') }}</td>
                                         <td>
                                             <a href="" class="btn btn-primary btn-sm">
@@ -121,16 +119,16 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-{{ $contract->status == 'Baru' ? 'success' : ($contract->status == 'Progress (Surat Izin)' ? 'warning' : 'info') }} btn-sm" disabled>
-                                                <i class="fas fa-{{ $contract->status == 'Baru' ? 'check-circle' : ($contract->status == 'Progress (Surat Izin)' ? 'hourglass-half' : 'flag-checkered') }}"></i>
+                                            <button type="button" class="btn btn-{{ $contract->status == 'Baru' ? 'success' : ($contract->status == 'Progress (Surat Izin)' ? 'warning' : ($contract->status == 'Berakhir' ? 'danger' : 'info')) }} btn-sm" disabled>
+                                                <i class="fas fa-{{ $contract->status == 'Baru' ? 'check-circle' : ($contract->status == 'Progress (Surat Izin)' ? 'hourglass-half' : ($contract->status == 'Berakhir' ? 'times-circle' : 'flag-checkered')) }}"></i>
                                                 {{ $contract->status }}
                                             </button>
                                         </td>
                                         <td class="text-center">
-                                            <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="javascript:void(0);" onclick="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                            <form id="" action="" method="POST" style="display: none;">
+                                            <a href="{{ route('contracts.show', $contract->id) }}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{ route('editContracts', $contract->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="javascript:void(0);" onclick="confirmDelete({{ $contract->id }})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                            <form id="delete-form-{{ $contract->id }}" action="{{ route('deleteContracts', $contract->id) }}" method="POST" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
