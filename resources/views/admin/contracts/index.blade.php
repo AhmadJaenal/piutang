@@ -114,7 +114,7 @@
                                         <td>{{ $contract->jangka_waktu }}</td>
                                         <td>Rp {{ number_format($contract->nilai, 0, ',', '.') }}</td>
                                         <td>
-                                            <a href="" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('listCompensations', $contract->id) }}" class="btn btn-primary btn-sm">
                                                 <i class="fas fa-file-invoice"></i> Kompensasi
                                             </a>
                                         </td>

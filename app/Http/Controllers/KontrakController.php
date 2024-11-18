@@ -59,7 +59,9 @@ class KontrakController extends Controller
     
         $awal_janji = Carbon::parse($request->awal_janji);
         $akhir_janji = Carbon::parse($request->akhir_janji);
-        $jangkaWaktu = $akhir_janji->diffInYears($awal_janji) + 1;
+        $jangkaWaktu = $awal_janji->diffInMonths($akhir_janji) / 12;
+        $jangkaWaktu = ceil($jangkaWaktu);
+
 
     
         // Menggunakan metode create untuk menyimpan data ke dalam model Contracts
@@ -137,7 +139,8 @@ class KontrakController extends Controller
 
         $awal_janji = Carbon::parse($request->awal_janji);
         $akhir_janji = Carbon::parse($request->akhir_janji);
-        $jangkaWaktu = $akhir_janji->diffInYears($awal_janji) + 1;
+        $jangkaWaktu = $awal_janji->diffInMonths($akhir_janji) / 12;
+        $jangkaWaktu = ceil($jangkaWaktu);
 
         $contracts->update([
             'partner_id' => $request->partner_id,

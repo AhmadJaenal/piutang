@@ -11,9 +11,7 @@
             <li><a href="#hero" class="active">Beranda</a></li>
             <li><a href="">Kontrak</a></li>
             <li><a href="#about">Tentang Kami</a></li>
-            <li><a href="#features">Fitur</a></li>
             <li><a href="#gallery">Galeri</a></li>
-            <li><a href="#contact">Kontak</a></li>
             <li><a href="{{ route('logout') }}" class="nav-item nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf

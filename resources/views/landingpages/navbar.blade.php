@@ -10,9 +10,7 @@
         <ul>
           <li><a href="#hero" class="active">Beranda</a></li>
           <li><a href="#about">Tentang Kami</a></li>
-          <li><a href="#features">Fitur</a></li>
           <li><a href="#gallery">Galeri</a></li>
-          <li><a href="#contact">Kontak</a></li>
           @if (Auth::check())
                         @if (Auth::user()->userType == 'admin')
                             <li><a href="{{ route('admin') }}" class="nav-item nav-link">Admin</a></li>

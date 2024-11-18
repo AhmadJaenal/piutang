@@ -92,7 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </a>
             </li>
             <li class="nav-item">
-            <a href="{{ route('listContracts') }}" class="nav-link {{ Request::routeIs('listContracts') ? 'active' : '' }}" style="{{ Request::routeIs('listContracts') ? 'color: #000000;' : 'color: #ffffff;' }}">
+              <a href="{{ route('listContracts') }}" class="nav-link {{ Request::routeIs('listContracts') ? 'active' : '' }}" style="{{ Request::routeIs('listContracts') ? 'color: #000000;' : 'color: #ffffff;' }}">
                 <i class="nav-icon fas fa-file-contract"></i>
                 <p>Kontrak</p>
               </a>
