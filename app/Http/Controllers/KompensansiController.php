@@ -18,10 +18,28 @@ class KompensansiController extends Controller
         $kompensasi = Compensation::where('contract_id', $contractId)->get();
         $kompensasiSharing = Compensharing::where('contract_id', $contractId)->get();
 
+        // Menghitung total untuk setiap kolom
+    $totalNilaiKompensasi = $kompensasi->sum('nilai_kompensansi');
+    $totalPPN = $kompensasi->sum('ppn');
+    $totalNilaiPlusPPN = $kompensasi->sum('nilai_plus_ppn');
+    $totalPBB = $kompensasi->sum('pbb');
+    $totalLainnya = $kompensasi->sum('lainnya');
+    $totalKompensasi = $kompensasi->sum('total');
+    $totalKompensasiSharing = $kompensasiSharing->sum('kompensasi_sharing');
+
         return view('admin.contracts.kompensansi', [
             'contract' => $contract,
             'kompensasi' => $kompensasi,
-            'kompensasiSharing' => $kompensasiSharing
+            'kompensasiSharing' => $kompensasiSharing,
+            'totals' => [
+            'totalNilaiKompensasi' => $totalNilaiKompensasi,
+            'totalPPN' => $totalPPN,
+            'totalNilaiPlusPPN' => $totalNilaiPlusPPN,
+            'totalPBB' => $totalPBB,
+            'totalLainnya' => $totalLainnya,
+            'totalKompensasi' => $totalKompensasi,
+            'totalKompensasiSharing' => $totalKompensasiSharing,
+            ],
         ]);
 
     }
@@ -49,9 +67,62 @@ class KompensansiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $contractId)
     {
-        //
+        $contract = Contracts::findOrFail($contractId);
+
+        $request->validate([
+            'tahun_awal' => 'required|integer',
+            'tahun_akhir' => 'required|integer|gte:tahun_awal',
+            'jatuh_tempo' => 'required|date',
+            'nilai_kompensasi' => 'required|numeric',
+            'pbb' => 'required|numeric',
+            'lainnya' => 'nullable|numeric',
+        ]);
+
+        $tahunAwal = $request->input('tahun_awal');
+        $tahunAkhir = $request->input('tahun_akhir');
+        $jatuhTempo = $request->input('jatuh_tempo');
+        $nilaiKompensasi = $request->input('nilai_kompensasi');
+        $pbb = $request->input('pbb');
+        $lainnya = $request->input('lainnya') ?? 0;
+
+        for ($tahun = $tahunAwal; $tahun <= $tahunAkhir; $tahun++) {
+            // Cek apakah data untuk tahun ini sudah ada
+            $existingRecord = Compensation::where('contract_id', $contractId)
+                ->where('tahun', $tahun)
+                ->first();
+
+            if ($existingRecord) {
+                // Lewati tahun ini jika data sudah ada
+                $jatuhTempo = date('Y-m-d', strtotime('+1 year', strtotime($jatuhTempo)));
+                continue;
+            }
+
+            $ppn = $nilaiKompensasi * 0.11;
+            $nilaiPlusPpn = $nilaiKompensasi + $ppn;
+            $total = $nilaiPlusPpn + $pbb + $lainnya;
+
+            Compensation::create([
+                'contract_id' => $contractId,
+                'tahun' => $tahun,
+                'jatuh_tempo' => $jatuhTempo,
+                'nilai_kompensansi' => $nilaiKompensasi,
+                'ppn' => $ppn,
+                'nilai_plus_ppn' => $nilaiPlusPpn,
+                'pbb' => $pbb,
+                'lainnya' => $lainnya,
+                'total' => $total,
+            ]);
+
+            // Update nilai untuk tahun berikutnya
+            $nilaiKompensasi *= 1.1;
+            $pbb *= 1.05;
+            $jatuhTempo = date('Y-m-d', strtotime('+1 year', strtotime($jatuhTempo)));
+        }
+
+        return redirect()->route('listCompensations', ['contractId' => $contractId])
+                     ->with('success', 'Data kompensasi berhasil disimpan');
     }
 
     public function storeCompenshare(Request $request, $contractId)
@@ -88,11 +159,6 @@ class KompensansiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
-
     public function editCompenshare(string $contractId, $id)
     {
         $contract = Contracts::findOrFail($contractId);  
@@ -104,11 +170,6 @@ class KompensansiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
     public function updateCompenshare(Request $request, string $contractId, $id)
     {
         // Validate the request data
@@ -141,11 +202,6 @@ class KompensansiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function destroyCompenshare(string $contractId, $id)
     {
         $compenshare = Compensharing::where('contract_id', $contractId)

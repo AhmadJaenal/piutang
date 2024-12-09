@@ -92,9 +92,6 @@
                     <div class="card-header text-left">
                         <a class="btn btn-dark" role="button" href="{{ route('listContracts') }}"><i class="fas fa-arrow-left"></i> Kembali</a>
                         <a href="{{ route('createCompensations', ['contractId' => $contract->id]) }}" class="btn btn-info" role="button"><i class="fas fa-plus"></i> Tambah Kompensansi</a>
-                        <a href="" class="btn btn-success" role="button"><i class="fas fa-edit"></i> Edit Kompensansi</a>
-                        <a href="" class="btn btn-warning" role="button"><i class="fas fa-eraser"></i> Hapus Kompensansi</a>
-                        <a href="" class="btn btn-danger" role="button"><i class="fas fa-trash"></i> Tempat Sampah</a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -118,7 +115,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $compensation->tahun }}</td>
                                         <td>{{ \Carbon\Carbon::parse($compensation->jatuh_tempo)->format('d-m-Y') }}</td>
-                                        <td>Rp {{ number_format($compensation->nilai, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($compensation->nilai_kompensansi, 0, ',', '.') }}</td>
                                         <td>Rp {{ number_format($compensation->ppn, 0, ',', '.') }}</td>
                                         <td>Rp {{ number_format($compensation->nilai_plus_ppn, 0, ',', '.') }}</td>
                                         <td>Rp {{ number_format($compensation->pbb, 0, ',', '.') }}</td>
@@ -127,6 +124,17 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3" style="text-align: center;">Total</th>
+                                        <th>{{ number_format($totals['totalNilaiKompensasi'], 2) }}</th>
+                                        <th>{{ number_format($totals['totalPPN'], 2) }}</th>
+                                        <th>{{ number_format($totals['totalNilaiPlusPPN'], 2) }}</th>
+                                        <th>{{ number_format($totals['totalPBB'], 2) }}</th>
+                                        <th>{{ number_format($totals['totalLainnya'], 2) }}</th>
+                                        <th>{{ number_format($totals['totalKompensasi'], 2) }}</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -169,6 +177,12 @@
                                     </tr>
                                     @endforeach
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3" style="text-align: center;">Total Kompensasi Sharing</th>
+                                        <th colspan="2">{{ number_format($totals['totalKompensasiSharing'], 2) }}</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

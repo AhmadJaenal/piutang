@@ -17,7 +17,7 @@ class KontrakController extends Controller
      */
     public function index()
     {
-        $contracts = Contracts::with(['partner', 'field'])->get(); 
+        $contracts = Contracts::with(['partner', 'field'])->get();
             return view('admin.contracts.index', [
             'contracts' => $contracts
         ]);
@@ -56,14 +56,14 @@ class KontrakController extends Controller
             'no_wa' => 'nullable|string|max:20',
             'ket' => 'nullable|string|max:500',
         ]);
-    
+
         $awal_janji = Carbon::parse($request->awal_janji);
         $akhir_janji = Carbon::parse($request->akhir_janji);
         $jangkaWaktu = $awal_janji->diffInMonths($akhir_janji) / 12;
         $jangkaWaktu = ceil($jangkaWaktu);
 
 
-    
+
         // Menggunakan metode create untuk menyimpan data ke dalam model Contracts
         $contract = Contracts::create([
             'contract_code' => Contracts::generateContractNumber(),
@@ -83,7 +83,7 @@ class KontrakController extends Controller
             'ket' => $request->ket,
             'status' => 'baru',
         ]);
-    
+
         // Mengalihkan ke halaman index dengan pesan sukses
         return redirect()->route('listContracts')->with('success', 'Kontrak berhasil dibuat.');
     }
@@ -119,7 +119,7 @@ class KontrakController extends Controller
     public function update(Request $request, string $id)
     {
         $contracts = Contracts::findOrFail($id);
-        
+
         $request->validate([
             'partner_id' => 'required|exists:partners,user_id',
             'field_id' => 'required|exists:fields,id',
@@ -170,7 +170,7 @@ class KontrakController extends Controller
     {
         $contract = Contracts::findOrFail($id);
         $contract->delete();
-        return redirect()->route('listPartners')->with('success', 'Kontrak Berhasil Dihapus');
+        return redirect()->route('listContracts')->with('success', 'Kontrak Berhasil Dihapus');
     }
 
      /**

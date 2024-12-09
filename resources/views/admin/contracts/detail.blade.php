@@ -74,14 +74,6 @@
                                 <td><strong>Keterangan</strong></td>
                                 <td>{{ $contract->ket }}</td>
                             </tr>
-                            <tr>
-                                <td><strong>Awal Perjanjian</strong></td>
-                                <td>{{ $contract->awal_janji }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Akhir Perjanjian</strong></td>
-                                <td>{{ $contract->akhir_janji }}</td>
-                            </tr>
                         </tbody>
                     </table>
                     <br>
@@ -89,16 +81,20 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Jangka Waktu</th>
                                 <th>Luas (m<sup>2</sup>)</th>
                                 <th>Nilai Kompensansi</th>
+                                <th>Awal Perjanjian</th>
+                                <th>Akhir Perjanjian</th>
+                                <th>Jangka Waktu</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{ $contract->jangka_waktu }} Tahun</td>
                                 <td>{{ $contract->luas }} m<sup>2</sup></td>
                                 <td>Rp {{ number_format($contract->nilai, 0, ',', '.') }}</td>
+                                <td>{{ $contract->awal_janji }}</td>
+                                <td>{{ $contract->akhir_janji }}</td>
+                                <td>{{ $contract->jangka_waktu }} Tahun</td>
                             </tr>
                         </tbody>
                     </table>
